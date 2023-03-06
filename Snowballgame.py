@@ -21,7 +21,7 @@ while True:
     if logo_x_pos > 700: logo_x_pos = 100
     #screen.blit(plaintest_surface,(0,0))
     screen.blit(logo_surface,(logo_x_pos,200))
-    
+    # somehow moves weierdly right now
     
 
     pygame.display.update()
