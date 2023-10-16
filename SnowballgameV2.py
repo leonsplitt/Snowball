@@ -9,8 +9,8 @@ pygame.init()
 
 screen = pygame.display.set_mode(SCREEN_SIZE)
 pygame.display.set_caption("Snowball")
-# clock = pygame.time.Clock()
-# clock.tick(60)
+clock = pygame.time.Clock()
+clock.tick(60)
 
 BLUE = (0, 0, 255)
 
@@ -37,11 +37,12 @@ while True:
 
     # check the whole screen is blue
     allblue = True
-    for i in range(1080):
-        aww = screen.get_at((i, 0))
-        if aww != BLUE:
-            allblue = False
-            break
+    for j in range(SCREEN_SIZE[1]):
+        for i in range(SCREEN_SIZE[0]):
+            aww = screen.get_at((i, j))
+            if aww != BLUE:
+                allblue = False
+                break
 
     if allblue == True:
         print("izz blu")
