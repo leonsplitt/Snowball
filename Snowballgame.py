@@ -22,7 +22,6 @@ pygame.display.set_caption("Leon's Game")
 clock = pygame.time.Clock()
 
 
-
 # load assets
 background = pygame.image.load('assets/Background.png')
 ground = pygame.image.load('assets/Ground.png')
