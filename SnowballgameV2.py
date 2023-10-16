@@ -21,12 +21,10 @@ dy = 150
 while True:
     pygame.display.update()
 
-    # DRAW
-    # screen.blit(background, (0,0))
+    # draw the player on the screen
+    player = pygame.draw.rect(screen, BLUE, pygame.Rect(dx, dy, 100, 50))
 
-    background = pygame.draw.rect(screen, BLUE, pygame.Rect(dx, dy, 100, 50))
-
-    # get keypresses
+    # handle movements with arrow keys
     key = pygame.key.get_pressed()
     if key[pygame.K_LEFT]:
         dx -= 1
@@ -37,11 +35,10 @@ while True:
     if key[pygame.K_DOWN]:
         dy += 1
 
+    # check the whole screen is blue
     allblue = True
-
     for i in range(1080):
         aww = screen.get_at((i, 0))
-
         if aww != BLUE:
             allblue = False
             break
@@ -51,6 +48,7 @@ while True:
     else:
         print("iwas anderes")
 
+    # exit if closing window
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
