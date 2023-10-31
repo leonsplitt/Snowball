@@ -1,8 +1,5 @@
 import pygame
 from pygame import mixer
-import random
-import time
-import sys
 from pygame.locals import *
 from sys import exit
 
@@ -11,9 +8,10 @@ SCREEN_SIZE = (1080,720)
 FLOOR_HEIGHT = 635
 SPAWN_POS_X = 300
 SPAWN_POS_Y = 300
+JUMP_VEL = -80
 
 # init
-pygame.mixer.pre_init(44100, -16,2, 512)
+mixer.pre_init(44100, -16,2, 512)
 mixer.init()
 pygame.init()
 
@@ -42,45 +40,41 @@ class Player():
         self.rect.y = y
         self.vel_y = 0
         self.vel_x = 0
-        self.jumped = False
         self.moved = False
 
+    def is_not_jumping(self):
+        return self.rect.bottom == FLOOR_HEIGHT
 
     def update(self):
         dx = 0
         dy = 0
 
-        #get keypresses 
+        # handle keypresses 
         key = pygame.key.get_pressed()
-        if key[pygame.K_UP] and self.jumped == False and self.rect.bottom == FLOOR_HEIGHT:
+
+        if key[pygame.K_UP] and self.is_not_jumping():
             jump_fx.play()
-            self.vel_y = -20
-            self.jumped = True
-        if key[pygame.K_UP] == False:
-            self.jumped = False
+            self.vel_y = JUMP_VEL
+
         if key[pygame.K_LEFT] and self.moved == False:
             self.vel_x = -20
             self.moved = True
             self.rect.width += 1
             self.rect.height += 1
             self.image = pygame.transform.scale((snowball_img), (self.rect.width,self.rect.height))
-        if key[pygame.K_LEFT] == False:
+        elif key[pygame.K_LEFT] == False:
             self.moved = False
-
-            
+       
         if key[pygame.K_RIGHT]:
             dx += 5
-
-        #pickup snow
-
         
-        #add gravity
+        # add gravity
         self.vel_y += 10
         if self.vel_y > 10:
             self.vel_y = 10
         dy += self.vel_y
 
-        #add friction
+        # # add friction
         if self.vel_x > 0:
             self.vel_x -= 1
         elif self.vel_x < 0:
@@ -89,10 +83,9 @@ class Player():
             self.vel_x = -10
         dx += self.vel_x
 
-        #check for collisions with other snowballs (later)
+        # TODO: check for collisions with other snowballs (later)
 
-
-        #update player coordinates (also later)
+        # update player coordinates (also later)
         self.rect.x += dx
         self.rect.y += dy
 
