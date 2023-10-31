@@ -49,11 +49,12 @@ class Player:
         return self.rect.bottom == FLOOR_HEIGHT
 
     def grow_snowball(self):
-        self.rect.width += 1
-        self.rect.height += 1
-        self.image = pygame.transform.scale(
-            (snowball_img), (self.rect.width, self.rect.height)
-        )
+        if self.is_not_jumping():
+            self.rect.width += 1
+            self.rect.height += 1
+            self.image = pygame.transform.scale(
+                (snowball_img), (self.rect.width, self.rect.height)
+            )
 
     def handle_sidekey(self, key: ScancodeWrapper, which_key: int, dir: int):
         if key[which_key] and self.moved == False:
