@@ -9,7 +9,7 @@ FLOOR_HEIGHT = 635
 SPAWN_POS_X = 300
 SPAWN_POS_Y = 300
 JUMP_VEL = -80
-SIDE_VEL = -20
+SIDE_VEL = 20
 
 # init
 mixer.pre_init(44100, -16,2, 512)
@@ -69,8 +69,12 @@ class Player():
         elif key[pygame.K_LEFT] == False:
             self.moved = False
        
-        if key[pygame.K_RIGHT]:
-            dx += 5
+        if key[pygame.K_RIGHT] and self.moved == False:
+            self.vel_x = -SIDE_VEL
+            self.moved = True
+            self.grow_snowball()
+        elif key[pygame.K_RIGHT] == False:
+            self.moved = False
         
         # add gravity
         self.vel_y += 10
@@ -78,13 +82,17 @@ class Player():
             self.vel_y = 10
         dy += self.vel_y
 
-        # # add friction
+        # add friction
         if self.vel_x > 0:
             self.vel_x -= 1
         elif self.vel_x < 0:
             self.vel_x += 1
-        if abs(self.vel_x) > 10:
+
+        if self.vel_x > 10:
             self.vel_x = -10
+        elif self.vel_x < -10:
+            self.vel_x = 10
+
         dx += self.vel_x
 
         # TODO: check for collisions with other snowballs (later)
@@ -93,6 +101,7 @@ class Player():
         self.rect.x += dx
         self.rect.y += dy
 
+        # if player is below floor, move it back up
         if self.rect.bottom > FLOOR_HEIGHT:
             self.rect.bottom = FLOOR_HEIGHT
             dy = 0
