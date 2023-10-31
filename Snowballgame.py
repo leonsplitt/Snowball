@@ -9,6 +9,7 @@ FLOOR_HEIGHT = 635
 SPAWN_POS_X = 300
 SPAWN_POS_Y = 300
 JUMP_VEL = -80
+SIDE_VEL = -20
 
 # init
 mixer.pre_init(44100, -16,2, 512)
@@ -44,6 +45,11 @@ class Player():
 
     def is_not_jumping(self):
         return self.rect.bottom == FLOOR_HEIGHT
+    
+    def grow_snowball(self):
+        self.rect.width += 1
+        self.rect.height += 1
+        self.image = pygame.transform.scale((snowball_img), (self.rect.width,self.rect.height))
 
     def update(self):
         dx = 0
@@ -57,11 +63,9 @@ class Player():
             self.vel_y = JUMP_VEL
 
         if key[pygame.K_LEFT] and self.moved == False:
-            self.vel_x = -20
+            self.vel_x = SIDE_VEL
             self.moved = True
-            self.rect.width += 1
-            self.rect.height += 1
-            self.image = pygame.transform.scale((snowball_img), (self.rect.width,self.rect.height))
+            self.grow_snowball()
         elif key[pygame.K_LEFT] == False:
             self.moved = False
        
