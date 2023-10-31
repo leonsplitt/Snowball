@@ -119,10 +119,9 @@ class Player:
 #    current_player = Player(SPAWN_POS_X,SPAWN_POS_Y, snowball_img)
 
 
-# static_list = []
 clock.tick(60)
 player = Player(SPAWN_POS_X, SPAWN_POS_Y, snowball_img)
-
+parked_players = []
 
 # ----------------- GAME LOOP -----------------
 while True:
@@ -140,10 +139,15 @@ while True:
 
     player.update()
     player.blit()
+    for p in parked_players:
+        p.blit()
+
     # freeze with down key
-    # key = pygame.key.get_pressed()
-    # if key[pygame.K_DOWN]:
     #    freeze(player, static_list)
+    key = pygame.key.get_pressed()
+    if key[pygame.K_DOWN]:
+        parked_players.append(player)
+        player = Player(SPAWN_POS_X, SPAWN_POS_Y, snowball_img)
 
     # QUIT
     for event in pygame.event.get():
