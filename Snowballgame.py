@@ -78,8 +78,27 @@ class Player:
     def reset_self(self):
         old_self = copy.copy(self)
         new_self = Player(SPAWN_POS_X, SPAWN_POS_Y, snowball_img)
-        self.__dict__ = new_self.__dict__ # HACK: https://stackoverflow.com/a/7940581
+        self.__dict__ = new_self.__dict__  # HACK: https://stackoverflow.com/a/7940581
         return old_self
+
+    def handle_gravity(self):
+        self.vel_y += 10
+        if self.vel_y > 10:
+            self.vel_y = 10
+        self.rect.y += self.vel_y
+
+    def handle_friction(self):
+        if self.vel_x > 0:
+            self.vel_x -= 1
+        elif self.vel_x < 0:
+            self.vel_x += 1
+
+        if self.vel_x > 10:
+            self.vel_x = -10
+        elif self.vel_x < -10:
+            self.vel_x = 10
+
+        self.rect.x += self.vel_x
 
     def update(self):
         dx = 0
@@ -92,30 +111,9 @@ class Player:
         self.handle_downkey(key)
         self.handle_upppkey(key)
 
-        # add gravity
-        self.vel_y += 10
-        if self.vel_y > 10:
-            self.vel_y = 10
-        dy += self.vel_y
-
-        # add friction
-        if self.vel_x > 0:
-            self.vel_x -= 1
-        elif self.vel_x < 0:
-            self.vel_x += 1
-
-        if self.vel_x > 10:
-            self.vel_x = -10
-        elif self.vel_x < -10:
-            self.vel_x = 10
-
-        dx += self.vel_x
-
-        # TODO: check for collisions with other snowballs (later)
-
-        # update player coordinates (also later)
-        self.rect.x += dx
-        self.rect.y += dy
+        # handle physics
+        self.handle_gravity()
+        self.handle_friction()
 
         # if player is below floor, move it back up
         if self.rect.bottom > FLOOR_HEIGHT:
@@ -126,11 +124,6 @@ class Player:
         # draw player onto screen
         screen.blit(self.image, self.rect)
         pygame.draw.rect(screen, (255, 255, 255), self.rect, 2)
-
-
-# def freeze(current_player: Player, static_list):
-#    static_list.append(current_player)
-#    current_player = Player(SPAWN_POS_X,SPAWN_POS_Y, snowball_img)
 
 
 clock.tick(60)
