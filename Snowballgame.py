@@ -2,7 +2,7 @@ import pygame
 from pygame import mixer
 from pygame.locals import *
 from pygame.key import ScancodeWrapper
-from sys import exit
+import sys
 
 # constant variables
 SCREEN_SIZE = (1080, 720)
@@ -153,5 +153,5 @@ while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
-            exit()
+            sys.exit()
 # ----------------- GAME LOOP END -----------------
