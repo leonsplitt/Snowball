@@ -105,6 +105,10 @@ class Player:
         if self.rect.bottom > FLOOR_HEIGHT:
             self.rect.bottom = FLOOR_HEIGHT
 
+    def handle_collisions(self):
+        if self.rect.collidelist(parked_players) != -1:
+            print("collision")
+
     def update(self):
         # handle keypresses
         key = pygame.key.get_pressed()
@@ -117,6 +121,7 @@ class Player:
         self.handle_gravity()
         self.handle_friction()
         self.handle_floor()
+        self.handle_collisions()
 
     def blit(self):
         # draw player onto screen
