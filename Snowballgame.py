@@ -127,23 +127,16 @@ parked_players = []
 while True:
     # UPDATE
     pygame.display.update()
+    player.update()
 
     # DRAW
     screen.blit(background, (0, 0))
     screen.blit(ground, (0, 630))
-    # for i in static_list:
-    #    i.blit()
-    # screen.blit(logo_surface,(player_x,player_y))
-
-    # the cool function that does everything:
-
-    player.update()
     player.blit()
     for p in parked_players:
         p.blit()
 
-    # freeze with down key
-    #    freeze(player, static_list)
+    # Freeze
     key = pygame.key.get_pressed()
     if key[pygame.K_DOWN]:
         parked_players.append(player)
