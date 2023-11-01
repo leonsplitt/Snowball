@@ -3,6 +3,7 @@ from pygame import mixer
 from pygame.locals import *
 from pygame.key import ScancodeWrapper
 import sys
+import copy
 
 # constant variables
 SCREEN_SIZE = (1080, 720)
@@ -56,6 +57,11 @@ class Player:
                 (snowball_img), (self.rect.width, self.rect.height)
             )
 
+    def handle_upppkey(self, key: ScancodeWrapper):
+        if key[pygame.K_UP] and self.is_not_jumping():
+            jump_fx.play()
+            self.vel_y = JUMP_VEL
+
     def handle_sidekey(self, key: ScancodeWrapper, which_key: int, dir: int):
         if key[which_key] and self.moved == False:
             self.vel_x = dir * SIDE_VEL
@@ -64,19 +70,27 @@ class Player:
         elif key[which_key] == False:
             self.moved = False
 
+    def handle_downkey(self, key: ScancodeWrapper):
+        if key[pygame.K_DOWN] and self.is_not_jumping():
+            old_self = self.reset_self()
+            parked_players.append(old_self)
+
+    def reset_self(self):
+        old_self = copy.copy(self)
+        new_self = Player(SPAWN_POS_X, SPAWN_POS_Y, snowball_img)
+        self.__dict__ = new_self.__dict__ # HACK: https://stackoverflow.com/a/7940581
+        return old_self
+
     def update(self):
         dx = 0
         dy = 0
 
         # handle keypresses
         key = pygame.key.get_pressed()
-
-        if key[pygame.K_UP] and self.is_not_jumping():
-            jump_fx.play()
-            self.vel_y = JUMP_VEL
-
         self.handle_sidekey(key, pygame.K_LEFT, 1)
         self.handle_sidekey(key, pygame.K_RIGHT, -1)
+        self.handle_downkey(key)
+        self.handle_upppkey(key)
 
         # add gravity
         self.vel_y += 10
@@ -135,12 +149,6 @@ while True:
     player.blit()
     for p in parked_players:
         p.blit()
-
-    # Freeze
-    key = pygame.key.get_pressed()
-    if key[pygame.K_DOWN]:
-        parked_players.append(player)
-        player = Player(SPAWN_POS_X, SPAWN_POS_Y, snowball_img)
 
     # QUIT
     for event in pygame.event.get():
