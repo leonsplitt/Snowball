@@ -100,10 +100,12 @@ class Player:
 
         self.rect.x += self.vel_x
 
-    def update(self):
-        dx = 0
-        dy = 0
+    """If player is below floor, move it back up"""
+    def handle_floor(self):
+        if self.rect.bottom > FLOOR_HEIGHT:
+            self.rect.bottom = FLOOR_HEIGHT
 
+    def update(self):
         # handle keypresses
         key = pygame.key.get_pressed()
         self.handle_sidekey(key, pygame.K_LEFT, 1)
@@ -114,11 +116,7 @@ class Player:
         # handle physics
         self.handle_gravity()
         self.handle_friction()
-
-        # if player is below floor, move it back up
-        if self.rect.bottom > FLOOR_HEIGHT:
-            self.rect.bottom = FLOOR_HEIGHT
-            dy = 0
+        self.handle_floor()
 
     def blit(self):
         # draw player onto screen
