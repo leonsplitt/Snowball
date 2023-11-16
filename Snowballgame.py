@@ -45,7 +45,6 @@ class Player:
         self.radius = self.rect.height / 2
         self.vel_y = 0
         self.vel_x = 0
-        self.moved = False
         self.stop = False
 
     def is_not_jumping(self):
@@ -68,10 +67,7 @@ class Player:
     def handle_sidekey(self, key: ScancodeWrapper, which_key: int, dir: int):
         if key[which_key]:
             self.vel_x = dir * SIDE_VEL
-            self.moved = True
             self.grow_snowball()
-        elif key[which_key] == False:
-            self.moved = False
 
     def handle_downkey(self, key: ScancodeWrapper):
         if key[pygame.K_DOWN] and (self.is_not_jumping() or self.stop):
