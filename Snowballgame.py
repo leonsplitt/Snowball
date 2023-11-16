@@ -48,7 +48,7 @@ class Player:
         self.stop = False
 
     def is_not_jumping(self):
-        return self.rect.bottom == FLOOR_HEIGHT
+        return self.rect.bottom >= FLOOR_HEIGHT
 
     def grow_snowball(self):
         if self.is_not_jumping():
