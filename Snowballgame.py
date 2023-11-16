@@ -46,6 +46,7 @@ class Player:
         self.vel_y = 0
         self.vel_x = 0
         self.stop = False
+        self.angle = 0
 
     def is_not_jumping(self):
         return self.rect.bottom >= FLOOR_HEIGHT
@@ -68,6 +69,7 @@ class Player:
         if key[which_key]:
             self.vel_x = dir * SIDE_VEL
             self.grow_snowball()
+            self.angle = (self.angle + 90) % 360
 
     def handle_downkey(self, key: ScancodeWrapper):
         if key[pygame.K_DOWN] and (self.is_not_jumping() or self.stop):
@@ -129,7 +131,9 @@ class Player:
 
     def blit(self):
         # draw player onto screen
-        screen.blit(self.image, self.rect)
+        a = pygame.transform.rotate(self.image, self.angle)
+        screen.blit(a, self.rect)
+        # pygame.draw.rect(screen, (255, 255, 255), self.rect, 2)
 
 
 clock.tick(60)
