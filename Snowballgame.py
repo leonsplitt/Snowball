@@ -42,6 +42,7 @@ class Player:
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.radius = self.rect.height / 2
         self.vel_y = 0
         self.vel_x = 0
         self.moved = False
@@ -54,6 +55,7 @@ class Player:
         if self.is_not_jumping():
             self.rect.width += 1
             self.rect.height += 1
+            self.radius = self.rect.height / 2
             self.image = pygame.transform.scale(
                 (snowball_img), (self.rect.width, self.rect.height)
             )
@@ -107,9 +109,10 @@ class Player:
             self.rect.bottom = FLOOR_HEIGHT
 
     def handle_collisions(self):
-        if self.rect.collidelist(parked_players) != -1:
-            print("collision")
-            self.stop = True
+        for p in parked_players:
+            if pygame.sprite.collide_circle(self, p):
+                print("collision")
+                self.stop = True
 
     def update(self):
         key = pygame.key.get_pressed()
@@ -131,7 +134,6 @@ class Player:
     def blit(self):
         # draw player onto screen
         screen.blit(self.image, self.rect)
-        pygame.draw.rect(screen, (255, 255, 255), self.rect, 2)
 
 
 clock.tick(60)
