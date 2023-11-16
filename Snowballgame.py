@@ -45,6 +45,7 @@ class Player:
         self.vel_y = 0
         self.vel_x = 0
         self.moved = False
+        self.stop = False
 
     def is_not_jumping(self):
         return self.rect.bottom == FLOOR_HEIGHT
@@ -63,7 +64,7 @@ class Player:
             self.vel_y = JUMP_VEL
 
     def handle_sidekey(self, key: ScancodeWrapper, which_key: int, dir: int):
-        if key[which_key] and self.moved == False:
+        if key[which_key]:
             self.vel_x = dir * SIDE_VEL
             self.moved = True
             self.grow_snowball()
@@ -71,7 +72,7 @@ class Player:
             self.moved = False
 
     def handle_downkey(self, key: ScancodeWrapper):
-        if key[pygame.K_DOWN] and self.is_not_jumping():
+        if key[pygame.K_DOWN] and (self.is_not_jumping() or self.stop):
             old_self = self.reset_self()
             parked_players.append(old_self)
 
@@ -108,20 +109,24 @@ class Player:
     def handle_collisions(self):
         if self.rect.collidelist(parked_players) != -1:
             print("collision")
+            self.stop = True
 
     def update(self):
-        # handle keypresses
         key = pygame.key.get_pressed()
-        self.handle_sidekey(key, pygame.K_LEFT, 1)
-        self.handle_sidekey(key, pygame.K_RIGHT, -1)
-        self.handle_downkey(key)
-        self.handle_upppkey(key)
 
-        # handle physics
-        self.handle_gravity()
-        self.handle_friction()
-        self.handle_floor()
-        self.handle_collisions()
+        if not self.stop:
+            # handle keypresses
+            self.handle_sidekey(key, pygame.K_LEFT, 1)
+            self.handle_sidekey(key, pygame.K_RIGHT, -1)
+            self.handle_upppkey(key)
+
+            # handle physics
+            self.handle_gravity()
+            self.handle_friction()
+            self.handle_floor()
+            self.handle_collisions()
+        
+        self.handle_downkey(key)
 
     def blit(self):
         # draw player onto screen
