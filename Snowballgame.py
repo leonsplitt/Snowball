@@ -61,9 +61,10 @@ class Player:
             )
 
     def handle_upppkey(self, key: ScancodeWrapper):
-        if key[pygame.K_UP] and self.is_not_jumping():
+        if key[pygame.K_UP] and (self.stop or self.is_not_jumping()):
             jump_fx.play()
             self.vel_y = JUMP_VEL
+            self.stop = False
 
     def handle_sidekey(self, key: ScancodeWrapper, which_key: int, dir: int):
         if key[which_key]:
@@ -119,7 +120,6 @@ class Player:
             # handle keypresses
             self.handle_sidekey(key, pygame.K_LEFT, 1)
             self.handle_sidekey(key, pygame.K_RIGHT, -1)
-            self.handle_upppkey(key)
 
             # handle physics
             self.handle_gravity()
@@ -127,7 +127,11 @@ class Player:
             self.handle_floor()
             self.handle_collisions()
         
+        self.handle_upppkey(key)
         self.handle_downkey(key)
+
+        # if key[pygame.K_UP] and self.is_not_jumping():
+        #     pass
 
     def blit(self):
         # draw player onto screen
