@@ -8,8 +8,8 @@ import copy
 # constant variables
 SCREEN_SIZE = (1080, 720)
 FLOOR_HEIGHT = 635
-SPAWN_POS_X = 300
-SPAWN_POS_Y = 300
+SPAWN_POS_X = 400
+SPAWN_POS_Y = 10
 JUMP_VEL = -80
 SIDE_VEL = 20
 
