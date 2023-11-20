@@ -66,6 +66,10 @@ class Player:
             self.vel_y = JUMP_VEL
             self.stop = False
 
+    def handle_R(self, key: ScancodeWrapper):
+        if key[pygame.K_r]:
+            parked_players.clear()
+
     def handle_sidekey(self, key: ScancodeWrapper, which_key: int, dir: int):
         if key[which_key]:
             self.vel_x = dir * SIDE_VEL
@@ -115,6 +119,9 @@ class Player:
 
     def update(self):
         key = pygame.key.get_pressed()
+
+        # Check restart key
+        self.handle_R(key)
 
         if not self.stop:
             # handle keypresses
