@@ -114,7 +114,7 @@ class Player:
 
     def handle_collisions(self):
         for p in parked_players:
-            if pygame.sprite.collide_circle(self, p):
+            if pygame.sprite.collide_circle(self, p): #uses radius for collision detection
                 print("collision")
                 self.stop = True
 
