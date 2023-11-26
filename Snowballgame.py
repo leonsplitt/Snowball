@@ -6,7 +6,7 @@ import sys
 import copy
 
 # constant variables
-SCREEN_SIZE = (1080, 720)
+SCREEN_SIZE = (1280, 720)
 FLOOR_HEIGHT = 635
 SPAWN_POS_X = 400
 SPAWN_POS_Y = 10
@@ -31,7 +31,7 @@ snowball_img = pygame.image.load("assets/logo.png")
 # load sounds
 pygame.mixer.music.load("assets/night.mp3")
 pygame.mixer.music.play(-1, 0.0, 0)
-jump_fx = pygame.mixer.Sound("assets/jump2.mp3")
+jump_fx = pygame.mixer.Sound("assets/jump1.mp3")
 jump_fx.set_volume(0.1)
 
 
