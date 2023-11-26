@@ -1,9 +1,20 @@
+import copy
+import os
+import sys
+
 import pygame
 from pygame import mixer
 from pygame.locals import *
 from pygame.key import ScancodeWrapper
-import sys
-import copy
+
+
+# Get asset path (Required because path is different with pyinstaller)
+def asset(name: str) -> str:
+    try:
+        path = sys._MEIPASS # pyinstaller sets this to the tmp dir
+    except:
+        path = os.path.dirname(__file__)
+    return os.path.join(path, "assets", name)
 
 # constant variables
 SCREEN_SIZE = (1280, 720)
@@ -24,14 +35,14 @@ clock = pygame.time.Clock()
 
 
 # load assets
-background = pygame.image.load("_internal/assets/Background.png")
-ground = pygame.image.load("_internal/assets/Ground.png")
-snowball_img = pygame.image.load("_internal/assets/logo.png")
+background = pygame.image.load(asset("Background.png"))
+ground = pygame.image.load(asset("Ground.png"))
+snowball_img = pygame.image.load(asset("logo.png"))
 
 # load sounds
-pygame.mixer.music.load("_internal/assets/night.mp3")
+pygame.mixer.music.load(asset("night.mp3"))
 pygame.mixer.music.play(-1, 0.0, 0)
-jump_fx = pygame.mixer.Sound("_internal/assets/jump1.mp3")
+jump_fx = pygame.mixer.Sound(asset("jump1.mp3"))
 jump_fx.set_volume(0.1)
 
 
