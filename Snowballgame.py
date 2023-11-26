@@ -85,6 +85,7 @@ class Player:
         old_self = copy.copy(self)
         new_self = Player(SPAWN_POS_X, SPAWN_POS_Y, snowball_img)
         self.__dict__ = new_self.__dict__  #https://stackoverflow.com/a/7940581
+        print(new_self.__dict__)
         return old_self
 
     def handle_gravity(self):
