@@ -24,14 +24,14 @@ clock = pygame.time.Clock()
 
 
 # load assets
-background = pygame.image.load("assets/Background.png")
-ground = pygame.image.load("assets/Ground.png")
-snowball_img = pygame.image.load("assets/logo.png")
+background = pygame.image.load("_internal/assets/Background.png")
+ground = pygame.image.load("_internal/assets/Ground.png")
+snowball_img = pygame.image.load("_internal/assets/logo.png")
 
 # load sounds
-pygame.mixer.music.load("assets/night.mp3")
+pygame.mixer.music.load("_internal/assets/night.mp3")
 pygame.mixer.music.play(-1, 0.0, 0)
-jump_fx = pygame.mixer.Sound("assets/jump1.mp3")
+jump_fx = pygame.mixer.Sound("_internal/assets/jump1.mp3")
 jump_fx.set_volume(0.1)
 
 
