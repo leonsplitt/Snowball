@@ -19,7 +19,7 @@ mixer.init()
 pygame.init()
 
 screen = pygame.display.set_mode(SCREEN_SIZE)
-pygame.display.set_caption("Leon's Game")
+pygame.display.set_caption("Snowball: A Sandbox Game")
 clock = pygame.time.Clock()
 
 
@@ -84,7 +84,7 @@ class Player:
     def reset_self(self):
         old_self = copy.copy(self)
         new_self = Player(SPAWN_POS_X, SPAWN_POS_Y, snowball_img)
-        self.__dict__ = new_self.__dict__  # HACK: https://stackoverflow.com/a/7940581
+        self.__dict__ = new_self.__dict__  #https://stackoverflow.com/a/7940581
         return old_self
 
     def handle_gravity(self):
@@ -106,7 +106,7 @@ class Player:
 
         self.rect.x += self.vel_x
 
-    """If player is below floor, move it back up"""
+    #If player is below floor, move it back up
     def handle_floor(self):
         if self.rect.bottom > FLOOR_HEIGHT:
             self.rect.bottom = FLOOR_HEIGHT
